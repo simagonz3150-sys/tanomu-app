@@ -45,5 +45,22 @@ window.addEventListener("message", e=>{
   } else save(file);
 });
 </script>
+<script>
+// アプリの入室IDをこのページ（ホーム画面のアプリ）側に覚えておき、次から自動で入れる
+window.addEventListener("message", function(e){
+  var h; try{ h = new URL(e.origin).hostname; }catch(_){ return; }
+  if(!/\.googleusercontent\.com$/.test(h)) return;
+  var d = e.data || {}; if(!d.k || typeof d.type !== "string" || d.type.indexOf("appid-") !== 0) return;
+  var key = "appid:" + d.k;
+  if(d.type === "appid-get"){
+    var v = ""; try{ v = localStorage.getItem(key) || ""; }catch(_){}
+    if(e.source) e.source.postMessage({type:"appid-val", k:d.k, v:v}, e.origin);
+  } else if(d.type === "appid-set" && d.v){
+    try{ localStorage.setItem(key, String(d.v)); }catch(_){}
+  } else if(d.type === "appid-clear"){
+    try{ localStorage.removeItem(key); }catch(_){}
+  }
+});
+</script>
 </body>
 </html>
