@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="店舗名札">
+<meta name="application-name" content="店舗名札">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=1">
+<link rel="icon" type="image/png" href="favicon.png?v=1">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#fff7d6">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>店舗名札</title>
+<style>
+  html,body{margin:0;height:100%;background:#fff7d6;overflow:hidden}
+  body{padding-top:env(safe-area-inset-top)}
+  iframe{display:block;border:0;width:100%;height:100%}
+  #load{position:fixed;inset:0;display:grid;place-items:center;color:#8a7f79;font:14px "Hiragino Sans",system-ui,sans-serif;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="load">読み込み中…</div>
+<iframe id="app" allow="clipboard-write" src="https://script.google.com/macros/s/AKfycbwklKEj63BpdOc30a_F59we1L6vB6pxWcfCFKqn9Jo-g72tbuJMd8p-uJu6WHiOm2Da/exec"></iframe>
+<script>
+document.getElementById("app").addEventListener("load", ()=>{ const l=document.getElementById("load"); if(l) l.remove(); });
+</script>
+</body>
+</html>
