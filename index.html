@@ -38,7 +38,11 @@ function save(file){
 }
 window.addEventListener("message", e=>{
   if(!/\.googleusercontent\.com$|^https:\/\/script\.google\.com$/.test(e.origin)) return;
-  const d = e.data; if(!d || d.type !== "tanomu-pdf" || !d.buf) return;
+  const d = e.data; if(!d) return;
+  // 合言葉をこのページに覚えておく(ホーム画面のアイコンから開くたびに入力しなくてよいように)
+  if(d.type === "tanomu-get-key"){ let k = ""; try{ k = localStorage.getItem("tanomu_key") || ""; }catch(_){} if(e.source) e.source.postMessage({type:"tanomu-key", key:k}, e.origin); return; }
+  if(d.type === "tanomu-set-key"){ try{ if(d.key) localStorage.setItem("tanomu_key", String(d.key)); else localStorage.removeItem("tanomu_key"); }catch(_){} return; }
+  if(d.type !== "tanomu-pdf" || !d.buf) return;
   const file = new File([d.buf], d.name || "発注集計.pdf", {type:"application/pdf"});
   if(d.mode === "share" && navigator.canShare && navigator.canShare({files:[file]})){
     navigator.share({files:[file], title:file.name}).catch(err=>{ if(err && err.name !== "AbortError") save(file); });
